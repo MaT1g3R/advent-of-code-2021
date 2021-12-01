@@ -22,7 +22,7 @@ exampleInput = [199, 200, 208, 210, 200, 207, 240, 269, 260, 263]
 depthChangesTest :: Assertion
 depthChangesTest =
   assertEqual
-    ""
+    "depth change should work correctly"
     [ NoMeasurement,
       Increase,
       Increase,
@@ -38,7 +38,7 @@ depthChangesTest =
 
 countDepthIncreaseTest :: Assertion
 countDepthIncreaseTest =
-  assertEqual "" 7 $
+  assertEqual "count depth change should work correctly" 7 $
     countDepthIncrease
       [ NoMeasurement,
         Increase,
