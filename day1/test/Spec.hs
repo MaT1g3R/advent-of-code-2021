@@ -56,7 +56,7 @@ countDepthIncreaseTest =
 measurementWindowsTest :: Assertion
 measurementWindowsTest =
   assertEqual
-    "Measurement windowx should work correctly"
+    "Measurement windows should work correctly"
     [607, 618, 618, 617, 647, 716, 769, 792]
     $ measurementWindows exampleInput
 
