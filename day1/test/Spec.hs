@@ -9,6 +9,7 @@ import Lib
   ( DepthChange (..),
     countDepthIncrease,
     depthChanges,
+    measurementWindows,
   )
 import Test.Framework (defaultMainWithOpts)
 import Test.Framework.Providers.HUnit (testCase)
@@ -52,10 +53,32 @@ countDepthIncreaseTest =
         Increase
       ]
 
+measurementWindowsTest :: Assertion
+measurementWindowsTest =
+  assertEqual
+    "Measurement windowx should work correctly"
+    [607, 618, 618, 617, 647, 716, 769, 792]
+    $ measurementWindows exampleInput
+
+depthWindowChangesTest :: Assertion
+depthWindowChangesTest =
+  assertEqual
+    "Depth changes should work with sliding windows"
+    [NoMeasurement, Increase, NoChange, Decrease, Increase, Increase, Increase, Increase]
+    $ depthChanges . measurementWindows $ exampleInput
+
 main :: IO ()
 main =
   defaultMainWithOpts
     [ testCase "depthChangesTest" depthChangesTest,
-      testCase "countDepthIncreaseTest" countDepthIncreaseTest
+      testCase
+        "countDepthIncreaseTest"
+        countDepthIncreaseTest,
+      testCase
+        "measurementWindowsTest"
+        measurementWindowsTest,
+      testCase
+        "depthWindowChangesTest"
+        depthWindowChangesTest
     ]
     mempty
