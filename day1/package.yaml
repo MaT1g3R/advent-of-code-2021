@@ -28,3 +28,6 @@ tests:
     - -with-rtsopts=-N
     dependencies:
     - day1
+    - test-framework >= 0.8.2
+    - test-framework-hunit >= 0.3.0
+    - HUnit >= 1.6.2
