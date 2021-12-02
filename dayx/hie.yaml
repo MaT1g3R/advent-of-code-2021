@@ -1,0 +1,8 @@
+cradle:
+  stack:
+  - path: "./src"
+    component: "dayx:lib"
+  - path: "./test"
+    component: "dayx:test:dayx-test"
+  - path: "./app"
+    component: "dayx:exe:dayx-exe"
