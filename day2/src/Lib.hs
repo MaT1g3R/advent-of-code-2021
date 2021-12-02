@@ -1,8 +1,26 @@
-module Lib (position, Direction (..), Move (..), Coordinate (..), cordProduct, parseInput) where
+{-# LANGUAGE BlockArguments #-}
 
+module Lib (position, Direction (..), Move (..), Coordinate (..), cordProduct, parseInput, positionWithAim) where
+
+import Control.Monad.State
+import Data.Foldable (Foldable (foldl'))
 import Data.Maybe (catMaybes)
-import Text.Parsec (Parsec)
 import Text.ParserCombinators.Parsec
+  ( ParseError,
+    Parser,
+    char,
+    digit,
+    endBy,
+    eof,
+    many1,
+    newline,
+    parse,
+    skipMany,
+    skipMany1,
+    string,
+    try,
+    (<|>),
+  )
 
 data Direction = Forward | Down | Up deriving (Eq, Show)
 
@@ -15,6 +33,20 @@ instance Semigroup Coordinate where
 
 instance Monoid Coordinate where
   mempty = Coordinate 0 0
+
+data Position = Position Coordinate Integer
+
+moveWithAim :: Position -> Move -> Position
+moveWithAim (Position (Coordinate a b) aim) (Move dir x) =
+  case dir of
+    Up -> Position (Coordinate a b) (aim - x)
+    Down -> Position (Coordinate a b) (aim + x)
+    Forward -> Position (Coordinate (a + x) (b + x * aim)) aim
+
+positionWithAim :: [Move] -> Coordinate
+positionWithAim xs =
+  let (Position c _) = foldl' moveWithAim (Position (Coordinate 0 0) 0) xs
+   in c
 
 move :: Move -> Coordinate
 move (Move Forward i) = Coordinate i 0

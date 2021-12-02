@@ -13,6 +13,7 @@ import Lib
     cordProduct,
     parseInput,
     position,
+    positionWithAim,
   )
 import Test.Framework (defaultMainWithOpts)
 import Test.Framework.Providers.HUnit (testCase)
@@ -49,11 +50,14 @@ testProduct = assertEqual "product works" 150 $ cordProduct (Coordinate 15 10)
 
 testParseInput = assertEqual "prase input works" (Right sampleInput) $ parseInput sampleString
 
+testPositionWithAim = assertEqual "position with aim works" (Coordinate 15 60) $ positionWithAim sampleInput
+
 main :: IO ()
 main =
   defaultMainWithOpts
     [ testCase "testPosition" testPosition,
       testCase "testProduct" testProduct,
-      testCase "testParseInput" testParseInput
+      testCase "testParseInput" testParseInput,
+      testCase "testPositionWithAim" testPositionWithAim
     ]
     mempty

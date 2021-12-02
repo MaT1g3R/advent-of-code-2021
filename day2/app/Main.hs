@@ -1,6 +1,6 @@
 module Main where
 
-import Lib (cordProduct, parseInput, position)
+import Lib (cordProduct, parseInput, positionWithAim)
 
 main :: IO ()
 main = do
@@ -8,4 +8,4 @@ main = do
   moves <- case parseInput content of
     Right x -> pure x
     Left e -> (error . show) e
-  print $ (cordProduct . position) moves
+  print $ (cordProduct . positionWithAim) moves
