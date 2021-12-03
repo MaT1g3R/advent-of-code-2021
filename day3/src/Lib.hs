@@ -6,6 +6,9 @@ module Lib
     Bin (..),
     parseInput,
     binToDec,
+    oxygen,
+    co2,
+    lifeSupport,
   )
 where
 
@@ -17,7 +20,7 @@ data Bin = One | Zero deriving (Eq, Show)
 
 type BinNum = [Bin]
 
-binToDec :: BinNum -> Int
+binToDec :: BinNum -> Integer
 binToDec = fst . go
   where
     digitToDec One pow = 2 ^ pow
@@ -45,6 +48,32 @@ epsilonFromGamma = fmap inverse
   where
     inverse Zero = One
     inverse One = Zero
+
+bitFilter compare xs = go xs 0
+  where
+    go [] _ = []
+    go [x] _ = x
+    go xs idx = go partition (idx + 1)
+      where
+        acc :: BinNum -> ([BinNum], [BinNum], Integer, Integer) -> ([BinNum], [BinNum], Integer, Integer)
+        acc num (ones, zeros, oneCount, zeroCount) =
+          case num !! idx of
+            Zero -> (ones, num : zeros, oneCount, zeroCount + 1)
+            One -> (num : ones, zeros, oneCount + 1, zeroCount)
+        partition = compare $ foldr acc ([], [], 0, 0) xs
+
+oxygen :: [BinNum] -> BinNum
+oxygen = bitFilter compare
+  where
+    compare (ones, zeros, oneCount, zeroCount) = if oneCount >= zeroCount then ones else zeros
+
+co2 :: [BinNum] -> BinNum
+co2 = bitFilter compare
+  where
+    compare (ones, zeros, oneCount, zeroCount) = if zeroCount <= oneCount then zeros else ones
+
+lifeSupport :: [BinNum] -> Integer
+lifeSupport xs = (binToDec . oxygen) xs * (binToDec . co2) xs
 
 parseInput :: String -> [BinNum]
 parseInput = filter (/= []) . fmap parseLine . lines
