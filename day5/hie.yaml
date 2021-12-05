@@ -1,0 +1,13 @@
+cradle:
+  stack:
+    - path: "./src"
+      component: "day5:lib"
+
+    - path: "./app/Main.hs"
+      component: "day5:exe:day5-exe"
+
+    - path: "./app/Paths_day5.hs"
+      component: "day5:exe:day5-exe"
+
+    - path: "./test"
+      component: "day5:test:day5-test"
