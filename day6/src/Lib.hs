@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Lib (part1, parseInput) where
+module Lib (part1, parseInput, part2) where
 
 import Data.Foldable (Foldable (foldl'))
 import Data.Map.Strict (Map)
@@ -8,15 +8,15 @@ import qualified Data.Map.Strict as Map
 import Data.Maybe (fromMaybe)
 import qualified Data.Text as T
 
-type FishState = Map Int Int
+type FishState = Map Integer Integer
 
-insertN :: Int -> Int -> FishState -> FishState
+insertN :: Integer -> Integer -> FishState -> FishState
 insertN = Map.insertWith (+)
 
-insert1 :: FishState -> Int -> FishState
+insert1 :: FishState -> Integer -> FishState
 insert1 m k = insertN k 1 m
 
-count :: [Int] -> FishState
+count :: [Integer] -> FishState
 count = foldl' insert1 Map.empty
 
 simDay :: FishState -> FishState
@@ -30,16 +30,22 @@ simDay m = Map.mapKeys pred newM
           insertN 9 z $ Map.filterWithKey (\k _ -> k /= 0) m
       Nothing -> m
 
-simDays :: Int -> FishState -> FishState
+simDays :: Integer -> FishState -> FishState
 simDays days fish = foldl' f fish [1 .. days]
   where
     f m _ = simDay m
 
-parseInput :: T.Text -> [Int]
+parseInput :: T.Text -> [Integer]
 parseInput input = read . T.unpack <$> T.splitOn "," input
 
-part1 :: [Int] -> Int
+part1 :: [Integer] -> Integer
 part1 input = sum $ snd <$> Map.toList finalState
   where
     state = count input
     finalState = simDays 80 state
+
+part2 :: [Integer] -> Integer
+part2 input = sum $ snd <$> Map.toList finalState
+  where
+    state = count input
+    finalState = simDays 256 state
