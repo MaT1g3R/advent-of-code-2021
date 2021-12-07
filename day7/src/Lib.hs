@@ -20,16 +20,13 @@ median' xs = findKth xs $ 1 + length xs `div` 2
 
 move f xs = sum $ f <$> xs
 
+diff a b = abs (a - b)
+
 part1 :: [Int] -> Int
-part1 xs = min (move (f m) xs) (move (f m') xs)
+part1 xs = min (move (diff m) xs) (move (diff m') xs)
   where
     m = median xs
     m' = median' xs
-
-    f :: Int -> Int -> Int
-    f p a = abs (a - p)
-
-diff a b = abs (a - b)
 
 part2 :: [Int] -> Int
 part2 xs = min (calcFuel avg) (calcFuel avg')
