@@ -1,5 +1,8 @@
 module Lib (part1, part2, parseInput) where
 
+import Data.Set (Set)
+import qualified Data.Set as Set
+
 findKth :: [Int] -> Int -> Int
 findKth (x : xs) k
   | k == length l + 1 = x
@@ -13,6 +16,8 @@ findKth _ _ = -1
 
 median xs = findKth xs $ length xs `div` 2
 
+median' xs = findKth xs $ 1 + length xs `div` 2
+
 move f xs = sum $ f <$> xs
 
 diff a b = abs (a - b)
@@ -21,7 +26,7 @@ part1 :: [Int] -> Int
 part1 xs = min (move (diff m) xs) (move (diff m') xs)
   where
     m = median xs
-    m' = succ m
+    m' = median' xs
 
 part2 :: [Int] -> Int
 part2 xs = min (calcFuel avg) (calcFuel avg')
