@@ -1,0 +1,35 @@
+name:                day11
+version:             0.1.0.0
+
+dependencies:
+- base >= 4.7 && < 5
+- matrix >= 0.3
+- containers >= 0.6.5.1
+
+library:
+  source-dirs: src
+
+executables:
+  day11-exe:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - day11
+
+tests:
+  day11-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - day11
+    - test-framework >= 0.8.2
+    - test-framework-hunit >= 0.3.0
+    - HUnit >= 1.6.2
