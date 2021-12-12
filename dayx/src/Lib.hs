@@ -1,3 +1,2 @@
-module Lib (someFunc) where
+module Lib () where
 
-someFunc = 42

@@ -6,7 +6,7 @@ where
 import Control.Monad ()
 import Data.Monoid ()
 import Lib
-  ( someFunc,
+  (
   )
 import Test.Framework (defaultMainWithOpts)
 import Test.Framework.Providers.HUnit (testCase)
@@ -16,7 +16,7 @@ import Test.HUnit
   )
 
 itWorks :: Assertion
-itWorks = assertEqual "it works" 42 someFunc
+itWorks = assertEqual "it works" 42 42
 
 main :: IO ()
 main =

@@ -3,4 +3,4 @@ module Main where
 import Lib
 
 main :: IO ()
-main = print Lib.someFunc
+main = print 42
