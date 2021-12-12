@@ -31,13 +31,13 @@ instance forall a. Ord (Path a) where
   compare (Complete xs) (Complete xs') = compare xs xs'
 
 class Visited a where
-  single :: Cave -> a
+  empty :: a
   add :: Cave -> a -> Maybe a
 
 newtype AtMostOnce = AtMostOnce (Set Cave)
 
 instance Visited AtMostOnce where
-  single = AtMostOnce . S.singleton
+  empty = AtMostOnce S.empty
   add (Big _) s = Just s
   add c (AtMostOnce s) =
     if S.member c s
@@ -47,7 +47,7 @@ instance Visited AtMostOnce where
 newtype AtMostTwice = AtMostTwice (Map Cave Int)
 
 instance Visited AtMostTwice where
-  single c = AtMostTwice $ M.singleton c 1
+  empty = AtMostTwice M.empty
   add (Big _) a = Just a
   add c (AtMostTwice m) = if (M.size gt1 > 1) || (M.size gt2 > 0) then Nothing else Just (AtMostTwice m')
     where
@@ -99,7 +99,7 @@ expandPath m p = S.fromList $ mapMaybe (addToPath p) n
 findPaths :: Visited a => CaveMap -> Set (Path a)
 findPaths m = go m fromEndPaths
   where
-    basePath = Incomplete [End] $ single End
+    basePath = Incomplete [End] empty
 
     fromEnd = next m basePath
     fromEndPaths = S.fromList $ mapMaybe (addToPath basePath) $ S.toList fromEnd
