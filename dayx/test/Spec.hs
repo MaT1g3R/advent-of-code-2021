@@ -12,11 +12,11 @@ import Test.Framework (defaultMainWithOpts)
 import Test.Framework.Providers.HUnit (testCase)
 import Test.HUnit
   ( Assertion,
-    assertEqual,
+    (@=?),
   )
 
 itWorks :: Assertion
-itWorks = assertEqual "it works" 42 42
+itWorks = 42 @=? 42
 
 main :: IO ()
 main =
