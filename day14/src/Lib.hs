@@ -36,8 +36,10 @@ incCount = addCount 1
 countElements :: Char -> Char -> State -> Map Char Integer
 countElements start end m =
   Map.mapWithKey
-    (\c i -> i `div` 2 + if c == start || c == end then 1 else 0)
+    (\c i -> fixOffBy1 c i `div` 2)
     $ Map.foldlWithKey (\m' (a, b) i -> addCount i (addCount i m' a) b) Map.empty m
+  where
+    fixOffBy1 c i = let i' = if c == start then succ i else i in if c == end then succ i' else i'
 
 solve :: Integer -> Input -> Integer
 solve i (m, ins, start, end) = maximum counts - minimum counts
