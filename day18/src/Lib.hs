@@ -1,5 +1,6 @@
 module Lib (Input, part1, part2, parseInput) where
 
+import Control.Applicative ((<|>))
 import Data.List (foldl1')
 import Data.Maybe (mapMaybe)
 import Data.Void (Void)
@@ -8,7 +9,6 @@ import Text.Megaparsec
     Parsec,
     parseMaybe,
     some,
-    (<|>),
   )
 import Text.Megaparsec.Char (char, digitChar)
 
