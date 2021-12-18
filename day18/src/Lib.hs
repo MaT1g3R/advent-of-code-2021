@@ -40,16 +40,14 @@ explode t = (\(t, _, _) -> t) <$> go 0 t
     go _ (Leaf i) = Nothing
     go depth (Pair (Leaf l) (Leaf r))
       | depth >= 4 = Just (Leaf 0, Just l, Just r)
-    go depth (Pair l r) =
-      case go (succ depth) l of
-        Just (newLeft, addL, addR) ->
+    go depth (Pair l r) = explodeLeft <$> go (succ depth) l <|> explodeRight <$> go (succ depth) r
+      where
+        explodeLeft (newLeft, addL, addR) =
           let (newRight, newAddR) = addLeftMost addR r
-           in Just (Pair newLeft newRight, addL, newAddR)
-        Nothing -> case go (succ depth) r of
-          Just (newRight, addL, addR) ->
-            let (newLeft, newAddL) = addRightMost addL l
-             in Just (Pair newLeft newRight, newAddL, addR)
-          Nothing -> Nothing
+           in (Pair newLeft newRight, addL, newAddR)
+        explodeRight (newRight, addL, addR) =
+          let (newLeft, newAddL) = addRightMost addL l
+           in (Pair newLeft newRight, newAddL, addR)
 
     addLeftMost :: Maybe Integer -> Tree -> (Tree, Maybe Integer)
     addLeftMost Nothing tree = (tree, Nothing)
@@ -73,7 +71,7 @@ split :: Tree -> Maybe Tree
 split (Leaf i)
   | i >= 10 = Just $ Pair (Leaf (i `div` 2)) (Leaf (i - i `div` 2))
   | otherwise = Nothing
-split (Pair l r) = ((`Pair` r) <$> split l) <|> (Pair l <$> split r)
+split (Pair l r) = (`Pair` r) <$> split l <|> Pair l <$> split r
 
 part1 :: Input -> Integer
 part1 = magnitude . sumTrees
