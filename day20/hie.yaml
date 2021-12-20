@@ -1,0 +1,13 @@
+cradle:
+  stack:
+    - path: "./src"
+      component: "day20:lib"
+
+    - path: "./app/Main.hs"
+      component: "day20:exe:day20-exe"
+
+    - path: "./app/Paths_day20.hs"
+      component: "day20:exe:day20-exe"
+
+    - path: "./test"
+      component: "day20:test:day20-test"
