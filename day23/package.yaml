@@ -1,0 +1,38 @@
+name:                day23
+version:             0.1.0.0
+
+dependencies:
+- base <4.15
+- vector
+- containers
+- mtl
+- megaparsec
+- PSQueue
+
+library:
+  source-dirs: src
+
+executables:
+  day23-exe:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - day23
+
+tests:
+  day23-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - day23
+    - test-framework
+    - test-framework-hunit
+    - HUnit
